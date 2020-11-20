@@ -4,25 +4,25 @@ on:
   workflow_dispatch:
     inputs:
       semver:
-        description: 'The semver to use'
+        description: "The semver to use"
         required: true
-        default: 'patch'
+        default: "patch"
       remote:
-        description: 'The remote git where push the bumped version'
+        description: "The remote git where push the bumped version"
         required: true
-        default: 'origin'
+        default: "origin"
       branch:
-        description: 'The branch you want to release'
+        description: "The branch you want to release"
         required: true
-        default: 'master'
+        default: "master"
       npm-otp:
-        description: 'It will provide the otp code to the npm publish'
+        description: "It will provide the otp code to the npm publish"
         required: true
       npm-dist-tag:
-        description: 'It will add a npm tag to the module, like beta or next'
+        description: "It will add a npm tag to the module, like beta or next"
         required: false
       major:
-        description: 'It will unlock the release of a major release'
+        description: "It will unlock the release of a major release"
         required: false
 
 jobs:
@@ -35,7 +35,12 @@ jobs:
           node-version: 12
       - run: npm ci
       - run: npm i releasify
-      - run: releasify publish -v debug -s patch -k ${{secrets.GITHUB_TOKEN}}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: |
+          releasify publish \
+            --verbose debug \
+            --semver ${{github.event.inputs.semver}} \
+            --remote ${{github.event.inputs.remote}} \
+            --branch ${{github.event.inputs.branch}} \
+            --npm-dist-tag ${{github.event.inputs.npm-dist-tag}} \
+            --major ${{github.event.inputs.major}} \
+            --gh-token ${{secrets.GITHUB_TOKEN}}
