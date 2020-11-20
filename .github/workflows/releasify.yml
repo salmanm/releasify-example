@@ -44,3 +44,5 @@ jobs:
             --branch ${{github.event.inputs.branch}} \
             --major ${{github.event.inputs.major}} \
             --gh-token ${{secrets.GITHUB_TOKEN}}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
