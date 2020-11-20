@@ -11,5 +11,8 @@
     "url": "git+ssh://git@github.com/salmanm/releasify-example.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "releasify": "^1.4.0"
+  }
 }

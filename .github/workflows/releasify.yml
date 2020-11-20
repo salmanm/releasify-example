@@ -36,7 +36,8 @@ jobs:
       - run: npm install
       - run: npm i releasify
       - run: |
-          releasify publish \
+          ./node_modules/.bin/releasify \
+            publish \
             --verbose debug \
             --semver ${{github.event.inputs.semver}} \
             --remote ${{github.event.inputs.remote}} \
