@@ -26,7 +26,8 @@ on:
       #   required: false
 
 jobs:
-  release:
+  publish-npm:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -34,20 +35,33 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - run: npm i releasify --no-save
       - run: npm whoami
-      - run: echo $NODE_AUTH_TOKEN
-      - run: echo ${NODE_AUTH_TOKEN}
-      - name: "release now"
-        run: |
-          ./node_modules/.bin/releasify \
-            publish \
-            --no-verify \
-            --verbose debug \
-            --semver ${{github.event.inputs.semver}} \
-            --remote ${{github.event.inputs.remote}} \
-            --branch ${{github.event.inputs.branch}} \
-            --npm-otp ${{github.event.inputs.npmOtp}} \
-            --gh-token ${{secrets.GITHUB_TOKEN}}
+      - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - run: npm whoami
+  # release:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12
+  #         registry-url: https://registry.npmjs.org/
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+  #     - run: npm i releasify --no-save
+  #     - run: npm whoami
+  #     - run: echo $NODE_AUTH_TOKEN
+  #     - run: echo ${NODE_AUTH_TOKEN}
+  #     - name: "release now"
+  #       run: |
+  #         ./node_modules/.bin/releasify \
+  #           publish \
+  #           --no-verify \
+  #           --verbose debug \
+  #           --semver ${{github.event.inputs.semver}} \
+  #           --remote ${{github.event.inputs.remote}} \
+  #           --branch ${{github.event.inputs.branch}} \
+  #           --npm-otp ${{github.event.inputs.npmOtp}} \
+  #           --gh-token ${{secrets.GITHUB_TOKEN}}
