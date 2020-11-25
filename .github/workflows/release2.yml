@@ -34,9 +34,10 @@ jobs:
         with:
           node-version: 12
         env:
-          GITHUB_OAUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm i releasify --no-save
+      - run: echo $NODE_AUTH_TOKEN
+      - run: echo ${NODE_AUTH_TOKEN}
       - name: "release now"
         run: |
           ./node_modules/.bin/releasify \
@@ -48,3 +49,5 @@ jobs:
             --branch ${{github.event.inputs.branch}} \
             --npm-otp ${{github.event.inputs.npmOtp}} \
             --gh-token ${{secrets.GITHUB_TOKEN}}
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
