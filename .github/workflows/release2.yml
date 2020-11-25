@@ -33,9 +33,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+          registry-url: https://registry.npmjs.org/
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm i releasify --no-save
+      - run: npm whoami
       - run: echo $NODE_AUTH_TOKEN
       - run: echo ${NODE_AUTH_TOKEN}
       - name: "release now"
@@ -49,5 +51,3 @@ jobs:
             --branch ${{github.event.inputs.branch}} \
             --npm-otp ${{github.event.inputs.npmOtp}} \
             --gh-token ${{secrets.GITHUB_TOKEN}}
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
