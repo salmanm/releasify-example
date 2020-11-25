@@ -34,11 +34,10 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm whoami
       - run: npm ci
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-      - run: npm whoami
   # release:
   #   runs-on: ubuntu-latest
   #   steps:
